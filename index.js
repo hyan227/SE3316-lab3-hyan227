@@ -17,6 +17,20 @@ app.get('/api/parts', (request, response)=> {
     response.send(parts);
 });
 
+// Get details for a given part
+app.get('/api/parts/:part_id', (request, respond)=>{
+    const id = request.params.part_id;
+    console.log(`GET request for ${request, respond}`);
+    const part = parts.find(p => p.id === parseInt(id));
+    if(part){
+        respond.send(part);
+    }
+    else{
+        respond.status(404).send(`Part ${id} was not found!`);
+    }
+}
+);
+
 app.listen(port, () => {
     console.log(`Listening on port ${port}`);
 });
