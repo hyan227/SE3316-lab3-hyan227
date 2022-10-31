@@ -5,10 +5,10 @@ const port = 3000;
 const router = express.Router();
 
 const parts = [
-    {id: 100, name: 'Belt', color: 'brown'},
-    {id: 101, name: 'Clip', color: 'brown'},
-    {id: 102, name: 'Belt', color: 'red'},
-    {id: 103, name: 'Hat', color: 'Purple'},
+    {id: 100, name: 'Belt', color: 'brown', stock: 0},
+    {id: 101, name: 'Clip', color: 'brown', stock: 0},
+    {id: 102, name: 'Belt', color: 'red', stock: 0},
+    {id: 103, name: 'Hat', color: 'Purple', stock: 0},
 ];
 
 // Setup serving front-end code
@@ -59,7 +59,23 @@ router.put('/:id', (request, respond)=>{
     respond.send(newpart);
 });
 
+// Update stock level or post request
+router.post('/:id', (request, respond) =>{
+    const newpart = request.body;
+    console.log("Part: ", newpart);
 
+    //Find the part 
+    const part = parts.findIndex(p => p.id === parseInt(request.params.id));
+
+    if(part<0){
+        respond.status(404),send(`Part ${request.params.id} not found`);
+    }
+    else{
+        console.log('Changing stock for ', request.params.id);
+        parts[part].stock += parseInt(request.body.stock);
+        respond.send(request.body);
+    }
+})
 
 // Install the router at /api/parts
 app.use('/api/parts', router)
