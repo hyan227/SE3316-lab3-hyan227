@@ -1,0 +1,22 @@
+{
+  "name": "se3316-lab3-hyan227",
+  "version": "1.0.0",
+  "description": "This is a express module for lab3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyan227/SE3316-lab3-hyan227.git"
+  },
+  "author": "Haotian Yan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hyan227/SE3316-lab3-hyan227/issues"
+  },
+  "homepage": "https://github.com/hyan227/SE3316-lab3-hyan227#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
