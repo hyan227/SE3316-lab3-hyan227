@@ -75,12 +75,14 @@ app.get('/api/tracks', (request, respond) =>{
 
 app.get('/api/genres/:genre_id', (request, respond)=>{
     const id = request.params.genre_id;
-    const genre = genres.find(p => p.genre_id === parseInt(id));
-    if(part){
-        respond.send(part);
+    const genre = genres.find(p => p.genre_id === id);
+    if(genre){
+        delete genre.top_level;
+    delete genre['#tracks'];
+        respond.send(genre);
     }
     else{
-        respond.status(404).send(`Part ${id} was not found!`);
+        respond.status(404).send(`Genre ${id} was not found!`);
     }
 }
 );
