@@ -106,6 +106,32 @@ app.get('/api/artists/:artist_id', (request, respond)=>{
 }
 );
 
+// 3rd Question
+app.get('/api/tracks/:track_id', (request, respond)=>{
+    const id = request.params.track_id;
+    const track = tracks.find(p => p.track_id === id);
+    if(track){
+        const dupTrack = {};
+        dupTrack.album_id = track.album_id;
+        dupTrack.album_title = track.album_title;
+        dupTrack.artist_id = track.artist_id;
+        dupTrack.artist_name = track.artist_name;
+        dupTrack.tags = track.tags;
+        dupTrack.track_date_created = track.track_date_created;
+        dupTrack.track_date_recorded = track.track_date_recorded;
+        dupTrack.track_duration = track.track_duration;
+        dupTrack.track_genres = track.track_genres;
+        dupTrack.track_number = track.track_number;
+        dupTrack.track_title = track.track_title;
+        respond.send(dupTrack);
+    }
+    else{
+        respond.status(404).send(`Track ${id} was not found!`);
+    }
+}
+);
+
+
 
 
 
