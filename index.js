@@ -87,6 +87,24 @@ app.get('/api/genres/:genre_id', (request, respond)=>{
 }
 );
 
+// 2nd Question
+app.get('/api/artists/:artist_id', (request, respond)=>{
+    const id = request.params.artist_id;
+    const artist = artists.find(p => p.artist_id === id);
+    if(artist){
+        delete artist.artist_id;
+        delete artist.artist_bio;
+        delete artist.artist_image_file;
+        delete artist.artist_images;
+        delete artist.artist_members;
+        delete artist.artist_related_projects
+        respond.send(artist);
+    }
+    else{
+        respond.status(404).send(`Artist ${id} was not found!`);
+    }
+}
+);
 
 
 
@@ -96,7 +114,11 @@ app.get('/api/genres/:genre_id', (request, respond)=>{
 
 
 
+app.use('/api/genres', router)
 
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+});
 
 
 // const parts = [
@@ -176,8 +198,4 @@ app.get('/api/genres/:genre_id', (request, respond)=>{
 
 
 // Install the router at /api/parts
-app.use('/api/genres', router)
 
-app.listen(port, () => {
-    console.log(`Listening on port ${port}`);
-});
