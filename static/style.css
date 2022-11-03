@@ -1,15 +1,139 @@
-body{
-    font-family: Roboto,RobotoDraft,Helvetica,Arial,sans-serif;
+body {
+  background-color: yellow;
+  font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
 }
-h1{
-    color: white;
-    text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
-    font-size: 120%;
+h1 {
+    text-align: right;
+  color: white;
+  text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
+  position: relative;
+  top: 200px;
+  right: 300px;
 }
 
-p.intro {
-    border-radius: 25px;
-    border: 2px solid #737373;
-    padding: 20px;
-    background-color: rgb(246,195,248);
+.search-music{
+    outline: 10px solid black;
+    padding: 3em;
+    margin: 50px;
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 100% 50%;
+    background-attachment: fixed;
+    text-align: center;
+
 }
+
+.track-search{
+    margin: 20px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 5px 10px;
+    background: rgb(55, 25, 85);
+    
+}
+
+.artist-search{
+    margin: 20px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 5px 10px;
+    background: rgb(55, 25, 85);
+    
+}
+
+.album-search{
+    margin: 20px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    align-items: center;
+    border-radius: 60px;
+    padding: 5px 10px;
+    background: rgb(55, 25, 85);
+    
+}
+
+.search-music input{
+    background: transparent;
+    flex: 1;
+    border: 0;
+    outline: none;
+    padding: 10px 8px;
+    font-size: 20px;
+    color: tomato;
+}
+
+.search-music button img{
+    width: 20px;
+}
+
+.search-music button{
+    border: 0;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    background: rgb(166, 166, 228);
+    cursor: pointer;
+}
+
+
+
+.flex-parent {
+  display: flex;
+
+  background-color: black;
+  height: auto;
+}
+
+.box1 {
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: rgb(246, 195, 248);
+  margin: 20px;
+  padding: 20px;
+  width: 800px;
+  height: auto;
+}
+
+.box2 {
+  border-radius: 8px;
+  box-sizing: border-box;
+  background-color: red;
+  margin: 20px;
+  padding: 20px;
+  width: 800px;
+  height: auto;
+}
+
+.txt1 {
+  border: 2px;
+  padding: 2px;
+  justify-content: center;
+  align-items: center;
+  background-color: rosybrown;
+  position: relative;
+  width: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.txt2 {
+  border: 2px;
+  padding: 2px;
+  justify-content: center;
+  align-items: center;
+  background-color: rosybrown;
+  position: relative;
+  width: auto;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
