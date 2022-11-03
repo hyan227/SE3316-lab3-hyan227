@@ -88,7 +88,7 @@ app.get('/api/genres/:genre_id', (request, respond)=>{
 );
 
 // 2nd Question
-app.get('/api/artists/:artist_id', (request, respond)=>{
+app.get('/api/artists/ID/:artist_id', (request, respond)=>{
     const id = request.params.artist_id;
     const artist = artists.find(p => p.artist_id === id);
     if(artist){
@@ -107,7 +107,7 @@ app.get('/api/artists/:artist_id', (request, respond)=>{
 );
 
 // 3rd Question
-app.get('/api/tracks/:track_id', (request, respond)=>{
+app.get('/api/tracks/ID/:track_id', (request, respond)=>{
     const id = request.params.track_id;
     const track = tracks.find(p => p.track_id === id);
     if(track){
@@ -131,6 +131,46 @@ app.get('/api/tracks/:track_id', (request, respond)=>{
 }
 );
 
+app.get('/api/albums/Title/:album_title', (request, respond)=>{
+    const title = request.params.album_title;
+    const album = tracks.find(p => p.album_title === title );
+    if(album){
+    const trackIDs = tracks.filter(i => i.album_title == title).map(i => i.track_id)
+        const trackFilter = trackIDs.slice(0,6);
+        respond.send(trackFilter);
+    }
+    else{
+        respond.status(404).send(`Album title ${title} was not found!`);
+    }
+}
+);
+
+app.get('/api/tracks/Title/:track_title', (request, respond)=>{
+    const title = request.params.track_title;
+    const track = tracks.find(p => p.track_title === title );
+    if(track){
+    const trackIDs = tracks.filter(i => i.track_title == title).map(i => i.track_id)
+        const trackFilter = trackIDs.slice(0,6);
+        respond.send(trackFilter);
+    }
+    else{
+        respond.status(404).send(`Track title ${title} was not found!`);
+    }
+}
+);
+
+app.get('/api/artists/Name/:artist_name', (request, respond)=>{
+    const name = request.params.artist_name;
+    const artist = artists.find(p => p.artist_name === name );
+    if(artist){
+    const artistNames = artists.filter(i => i.artist_name == name).map(i => i.artist_id)
+        respond.send(artistNames);
+    }
+    else{
+        respond.status(404).send(`Artist name ${name} was not found!`);
+    }
+}
+);
 
 
 
