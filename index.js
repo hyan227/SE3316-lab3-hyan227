@@ -13,6 +13,27 @@ app.use((request, respond, next)=> {
       next();// keep going
  }); 
 
+ const mongoose = require('mongoose');
+ const MongoClient = require('mongodb').MongoClient;
+const url = 'mongodb+srv://Haotian:133Gaosan%40@cluster0.aq5indq.mongodb.net/?retryWrites=true&w=majority';
+
+
+async function connect() {
+    try{
+        await mongoose.connect(url);
+        console.log("Connected to mongodb");
+    }
+    catch(error) {
+        console.error(error);
+    }
+}
+connect();
+ 
+
+
+
+
+
 var genres = [];
 var albums = [];
 var artists = [];
@@ -23,12 +44,13 @@ const fs = require('fs');
 const parse = require('csv-parser');
 
 
+
 fs.createReadStream('lab3-data/genres.csv')
     .pipe(parse({delimiter: ':'}))
     .on('data', (data) => genres.push(data))
     .on('end',() => {
       //do something with data
-      console.log(genres);
+    //   console.log(genres);
     });
 
 fs.createReadStream('lab3-data/raw_albums.csv')
@@ -36,7 +58,7 @@ fs.createReadStream('lab3-data/raw_albums.csv')
     .on('data', (data) => albums.push(data))
     .on('end',() => {
       //do something with data
-      console.log(albums);
+    //   console.log(albums);
     });
 
 fs.createReadStream('lab3-data/raw_artists.csv')
@@ -44,7 +66,7 @@ fs.createReadStream('lab3-data/raw_artists.csv')
     .on('data', (data) => artists.push(data))
     .on('end',() => {
       //do something with data
-      console.log(artists);
+    //   console.log(artists);
     });
 
 fs.createReadStream('lab3-data/raw_tracks.csv')
@@ -52,7 +74,7 @@ fs.createReadStream('lab3-data/raw_tracks.csv')
     .on('data', (data) => tracks.push(data))
     .on('end',() => {
       //do something with data
-      console.log(tracks);
+    //   console.log(tracks);
     });
 
 app.get('/api/genres', (request, respond) =>{
@@ -131,6 +153,7 @@ app.get('/api/tracks/ID/:track_id', (request, respond)=>{
 }
 );
 
+// 4th question 1
 app.get('/api/albums/Title/:album_title', (request, respond)=>{
     const title = request.params.album_title;
     const album = tracks.find(p => p.album_title === title );
@@ -145,6 +168,7 @@ app.get('/api/albums/Title/:album_title', (request, respond)=>{
 }
 );
 
+// 4th question 2
 app.get('/api/tracks/Title/:track_title', (request, respond)=>{
     const title = request.params.track_title;
     const track = tracks.find(p => p.track_title === title );
@@ -159,6 +183,7 @@ app.get('/api/tracks/Title/:track_title', (request, respond)=>{
 }
 );
 
+// 5th question
 app.get('/api/artists/Name/:artist_name', (request, respond)=>{
     const name = request.params.artist_name;
     const artist = artists.find(p => p.artist_name === name );
