@@ -4,31 +4,31 @@ const app = express();
 const port = 3000;
 const router = express.Router();
 app.use('/', express.static('static'));
- // Parse data in body as JSON
+// Parse data in body as JSON
 router.use(express.json());
 
 // Setup middileware to do logging
-app.use((request, respond, next)=> {
-     console.log(`${request.method} request for ${request.url}`);
-      next();// keep going
- }); 
+app.use((request, respond, next) => {
+    console.log(`${request.method} request for ${request.url}`);
+    next();// keep going
+});
 
- const mongoose = require('mongoose');
- const MongoClient = require('mongodb').MongoClient;
+const mongoose = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb+srv://Haotian:133Gaosan%40@cluster0.aq5indq.mongodb.net/?retryWrites=true&w=majority';
 
 
 async function connect() {
-    try{
+    try {
         await mongoose.connect(url);
         console.log("Connected to mongodb");
     }
-    catch(error) {
+    catch (error) {
         console.error(error);
     }
 }
 connect();
- 
+
 
 
 
@@ -38,82 +38,82 @@ var genres = [];
 var albums = [];
 var artists = [];
 var tracks = [];
+var tracksList=[];
 
-
-const fs = require('fs'); 
+const fs = require('fs');
 const parse = require('csv-parser');
 
 
 
 fs.createReadStream('lab3-data/genres.csv')
-    .pipe(parse({delimiter: ':'}))
+    .pipe(parse({ delimiter: ':' }))
     .on('data', (data) => genres.push(data))
-    .on('end',() => {
-      //do something with data
-    //   console.log(genres);
+    .on('end', () => {
+        //do something with data
+        //   console.log(genres);
     });
 
 fs.createReadStream('lab3-data/raw_albums.csv')
-    .pipe(parse({delimiter: ':'}))
+    .pipe(parse({ delimiter: ':' }))
     .on('data', (data) => albums.push(data))
-    .on('end',() => {
-      //do something with data
-    //   console.log(albums);
+    .on('end', () => {
+        //do something with data
+        //   console.log(albums);
     });
 
 fs.createReadStream('lab3-data/raw_artists.csv')
-    .pipe(parse({delimiter: ':'}))
+    .pipe(parse({ delimiter: ':' }))
     .on('data', (data) => artists.push(data))
-    .on('end',() => {
-      //do something with data
-    //   console.log(artists);
+    .on('end', () => {
+        //do something with data
+        //   console.log(artists);
     });
 
 fs.createReadStream('lab3-data/raw_tracks.csv')
-    .pipe(parse({delimiter: ':'}))
+    .pipe(parse({ delimiter: ':' }))
     .on('data', (data) => tracks.push(data))
-    .on('end',() => {
-      //do something with data
-    //   console.log(tracks);
+    .on('end', () => {
+        //do something with data
+        //   console.log(tracks);
     });
 
-app.get('/api/genres', (request, respond) =>{
-         respond.send(genres);
+app.get('/api/genres', (request, respond) => {
+    respond.send(genres);
 })
 
-app.get('/api/albums', (request, respond) =>{
+app.get('/api/albums', (request, respond) => {
     respond.send(albums);
 })
 
-app.get('/api/artists', (request, respond) =>{
+app.get('/api/artists', (request, respond) => {
     respond.send(artists);
 })
 
-app.get('/api/tracks', (request, respond) =>{
+app.get('/api/tracks', (request, respond) => {
     respond.send(tracks);
 })
 
 // 1st Question 
 
-app.get('/api/genres/:genre_id', (request, respond)=>{
+app.get('/api/genres/:genre_id', (request, respond) => {
     const id = request.params.genre_id;
     const genre = genres.find(p => p.genre_id === id);
-    if(genre){
+    if (genre) {
         delete genre.top_level;
-    delete genre['#tracks'];
+        delete genre['#tracks'];
         respond.send(genre);
     }
-    else{
+    else {
         respond.status(404).send(`Genre ${id} was not found!`);
     }
 }
 );
 
 // 2nd Question
-app.get('/api/artists/ID/:artist_id', (request, respond)=>{
+app.get('/api/artists/ID/:artist_id', (request, respond) => {
     const id = request.params.artist_id;
     const artist = artists.find(p => p.artist_id === id);
-    if(artist){
+    if (artist) {
         delete artist.artist_id;
         delete artist.artist_bio;
         delete artist.artist_image_file;
@@ -122,17 +122,17 @@ app.get('/api/artists/ID/:artist_id', (request, respond)=>{
         delete artist.artist_related_projects
         respond.send(artist);
     }
-    else{
+    else {
         respond.status(404).send(`Artist ${id} was not found!`);
     }
 }
 );
 
 // 3rd Question
-app.get('/api/tracks/ID/:track_id', (request, respond)=>{
+app.get('/api/tracks/ID/:track_id', (request, respond) => {
     const id = request.params.track_id;
     const track = tracks.find(p => p.track_id === id);
-    if(track){
+    if (track) {
         const dupTrack = {};
         dupTrack.album_id = track.album_id;
         dupTrack.album_title = track.album_title;
@@ -147,55 +147,75 @@ app.get('/api/tracks/ID/:track_id', (request, respond)=>{
         dupTrack.track_title = track.track_title;
         respond.send(dupTrack);
     }
-    else{
+    else {
         respond.status(404).send(`Track ${id} was not found!`);
     }
 }
 );
 
 // 4th question 1
-app.get('/api/albums/Title/:album_title', (request, respond)=>{
+app.get('/api/albums/Title/:album_title', (request, respond) => {
     const title = request.params.album_title;
-    const album = tracks.find(p => p.album_title === title );
-    if(album){
-    const trackIDs = tracks.filter(i => i.album_title == title).map(i => i.track_id)
-        const trackFilter = trackIDs.slice(0,6);
+    const album = tracks.find(p => p.album_title === title);
+    if (album) {
+        const trackIDs = tracks.filter(i => i.album_title == title).map(i => i.track_id)
+        const trackFilter = trackIDs.slice(0, 6);
         respond.send(trackFilter);
     }
-    else{
+    else {
         respond.status(404).send(`Album title ${title} was not found!`);
     }
 }
 );
 
 // 4th question 2
-app.get('/api/tracks/Title/:track_title', (request, respond)=>{
+app.get('/api/tracks/Title/:track_title', (request, respond) => {
     const title = request.params.track_title;
-    const track = tracks.find(p => p.track_title === title );
-    if(track){
-    const trackIDs = tracks.filter(i => i.track_title == title).map(i => i.track_id)
-        const trackFilter = trackIDs.slice(0,6);
+    const track = tracks.find(p => p.track_title === title);
+    if (track) {
+        const trackIDs = tracks.filter(i => i.track_title == title).map(i => i.track_id)
+        const trackFilter = trackIDs.slice(0, 6);
         respond.send(trackFilter);
     }
-    else{
+    else {
         respond.status(404).send(`Track title ${title} was not found!`);
     }
 }
 );
 
 // 5th question
-app.get('/api/artists/Name/:artist_name', (request, respond)=>{
+app.get('/api/artists/Name/:artist_name', (request, respond) => {
     const name = request.params.artist_name;
-    const artist = artists.find(p => p.artist_name === name );
-    if(artist){
-    const artistNames = artists.filter(i => i.artist_name == name).map(i => i.artist_id)
+    const artist = artists.find(p => p.artist_name === name);
+    if (artist) {
+        const artistNames = artists.filter(i => i.artist_name == name).map(i => i.artist_id)
         respond.send(artistNames);
     }
-    else{
+    else {
         respond.status(404).send(`Artist name ${name} was not found!`);
     }
 }
 );
+
+// 6th question
+app.post('/api/tracksList/Title/:track_title', (request, respond) => {
+    const title = request.params.track_title;
+    const track = tracks.find(p => p.track_title === title);
+    if (track) {
+        if(tracksList.includes(track) == false){
+            tracksList.push(track);
+            respond.send(tracksList);
+        }
+        else
+         respond.status(404).send(`Track ${title} already existed!`);
+        
+    }
+    else {
+        respond.status(404).send(`Track title ${title} was not found!`);
+    }
+}
+);
+
 
 
 
