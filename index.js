@@ -1,6 +1,7 @@
 const { request, response } = require('express');
 const express = require('express');
 const app = express();
+app.use(express.json());
 const port = 3000;
 const router = express.Router();
 app.use('/', express.static('static'));
@@ -30,15 +31,11 @@ async function connect() {
 connect();
 
 
-
-
-
-
 var genres = [];
 var albums = [];
 var artists = [];
 var tracks = [];
-var tracksList=[];
+var tracksList= {};
 
 const fs = require('fs');
 const parse = require('csv-parser');
@@ -198,23 +195,41 @@ app.get('/api/artists/Name/:artist_name', (request, respond) => {
 );
 
 // 6th question
-app.post('/api/tracksList/Title/:track_title', (request, respond) => {
-    const title = request.params.track_title;
-    const track = tracks.find(p => p.track_title === title);
-    if (track) {
-        if(tracksList.includes(track) == false){
-            tracksList.push(track);
-            respond.send(tracksList);
-        }
-        else
-         respond.status(404).send(`Track ${title} already existed!`);
-        
+app.post('/api/tracksList/Name/:tracksList_name', (request, respond) => {
+    const trackTitle = request.body;
+    const name = request.params.tracksList_name;
+    if (tracksList.hasOwnProperty(name) == false) {
+        tracksList[name] = null;
+        respond.send(tracksList);
     }
     else {
-        respond.status(404).send(`Track title ${title} was not found!`);
+        respond.status(404).send(`list name ${name} has already existed!`);
+    }
+    
+}
+);
+// 7th question
+app.put('/api/trackIDList/Title/:tracksList_name', (request, respond) => {
+    const newTrack = request.body;
+    const name = request.params.tracksList_name;
+    const track = tracks.find(p => parseInt(p.track_id) === newTrack.track_id);
+    if (track) {
+        if(tracksList.hasOwnProperty(name) == true){
+            tracksList[name] = newTrack.track_id;
+            respond.send(tracksList); 
+        }else{
+            respond.status(404).send(`List ${name} was not found!`);
+        }
+    
+    }
+    else {
+        respond.status(404).send(`Track ID ${parseInt(newTrack.track_id)} was not found!`);
     }
 }
 );
+
+
+
 
 
 
