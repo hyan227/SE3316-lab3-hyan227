@@ -14,7 +14,7 @@ function getGenres(){
         const list = document.getElementById('test');
         data.forEach(element => {
             const item = document.createElement('li');
-            item.appendChild(document.createTextNode(`${element.genre_id}, ${element.title}`));
+            item.appendChild(document.createTextNode(`${element.genre_id}, ${element.parent}, ${element.title}`));
             list.appendChild(item);
         });
     })
@@ -98,16 +98,14 @@ function getArtist(){
         }
         );
         if(inputText.length !=0 && count>0){
-            fetch(`/api/artists/Name/${inputText}`)
+            fetch(`/api/artistsName/${inputText}`)
     .then(res => res.json()
     .then(data =>{
-        // console.log(data);
-        // const list = document.getElementById('test');
         while (list.hasChildNodes()) {
             list.removeChild(list.firstChild);
         }
             const item = document.createElement('li');
-            artist_id = document.createTextNode(`${data}`);
+            artist_id = document.createTextNode(`${data.artist_name}, ${data.artist_id}, ${data.artist_date_created}, ${data.artist_url}`);
             item.appendChild(artist_id);
             list.appendChild(item);
             console.log(inputText);
@@ -158,16 +156,14 @@ function getAlbum(){
         }
         );
         if(inputText.length !=0 && count>0){
-            fetch(`/api/albums/Title/${inputText}`)
+            fetch(`/api/albumsTitle/${inputText}`)
     .then(res => res.json()
     .then(data =>{
-        // console.log(data);
-        // const list = document.getElementById('test');
         while (list.hasChildNodes()) {
             list.removeChild(list.firstChild);
         }
             const item = document.createElement('li');
-            album_id = document.createTextNode(`${data}`);
+            album_id = document.createTextNode(`${data.album_title}, ${data.album_id}, ${data.artist_name}, ${data.track_explicit}`);
             item.appendChild(album_id);
             list.appendChild(item);
             console.log(inputText);

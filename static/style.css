@@ -3,7 +3,7 @@ body {
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
 }
 h1 {
-    text-align: right;
+  text-align: right;
   color: white;
   text-shadow: 1px 1px 2px black, 0 0 25px blue, 0 0 5px darkblue;
   position: relative;
@@ -11,78 +11,72 @@ h1 {
   right: 300px;
 }
 
-.search-music{
-    outline: 10px solid black;
-    padding: 3em;
-    margin: 50px;
-    background-position: top;
-    background-repeat: no-repeat;
-    background-size: 100% 50%;
-    background-attachment: fixed;
-    text-align: center;
-
+.search-music {
+  outline: 10px solid black;
+  padding: 3em;
+  margin: 50px;
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: 100% 50%;
+  background-attachment: fixed;
+  text-align: center;
 }
 
-.track-search{
-    margin: 20px;
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    align-items: center;
-    border-radius: 60px;
-    padding: 5px 10px;
-    background: rgb(55, 25, 85);
-    
+.track-search {
+  margin: 20px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  border-radius: 60px;
+  padding: 5px 10px;
+  background: rgb(55, 25, 85);
 }
 
-.artist-search{
-    margin: 20px;
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    align-items: center;
-    border-radius: 60px;
-    padding: 5px 10px;
-    background: rgb(55, 25, 85);
-    
+.artist-search {
+  margin: 20px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  border-radius: 60px;
+  padding: 5px 10px;
+  background: rgb(55, 25, 85);
 }
 
-.album-search{
-    margin: 20px;
-    width: 100%;
-    max-width: 500px;
-    display: flex;
-    align-items: center;
-    border-radius: 60px;
-    padding: 5px 10px;
-    background: rgb(55, 25, 85);
-    
+.album-search {
+  margin: 20px;
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  border-radius: 60px;
+  padding: 5px 10px;
+  background: rgb(55, 25, 85);
 }
 
-.search-music input{
-    background: transparent;
-    flex: 1;
-    border: 0;
-    outline: none;
-    padding: 10px 8px;
-    font-size: 20px;
-    color: tomato;
+.search-music input {
+  background: transparent;
+  flex: 1;
+  border: 0;
+  outline: none;
+  padding: 10px 8px;
+  font-size: 20px;
+  color: tomato;
 }
 
-.search-music button img{
-    width: 20px;
+.search-music button img {
+  width: 20px;
 }
 
-.search-music button{
-    border: 0;
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    background: rgb(166, 166, 228);
-    cursor: pointer;
+.search-music button {
+  border: 0;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  background: rgb(166, 166, 228);
+  cursor: pointer;
 }
-
-
 
 .flex-parent {
   display: flex;
@@ -136,4 +130,3 @@ h1 {
   word-wrap: break-word;
   word-break: break-word;
 }
-

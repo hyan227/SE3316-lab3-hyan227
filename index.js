@@ -48,7 +48,6 @@ fs.createReadStream('lab3-data/genres.csv')
     .on('data', (data) => genres.push(data))
     .on('end', () => {
         //do something with data
-        //   console.log(genres);
     });
 
 fs.createReadStream('lab3-data/raw_albums.csv')
@@ -56,7 +55,6 @@ fs.createReadStream('lab3-data/raw_albums.csv')
     .on('data', (data) => albums.push(data))
     .on('end', () => {
         //do something with data
-        //   console.log(albums);
     });
 
 fs.createReadStream('lab3-data/raw_artists.csv')
@@ -64,7 +62,6 @@ fs.createReadStream('lab3-data/raw_artists.csv')
     .on('data', (data) => artists.push(data))
     .on('end', () => {
         //do something with data
-        //   console.log(artists);
     });
 
 fs.createReadStream('lab3-data/raw_tracks.csv')
@@ -72,7 +69,6 @@ fs.createReadStream('lab3-data/raw_tracks.csv')
     .on('data', (data) => tracks.push(data))
     .on('end', () => {
         //do something with data
-        //   console.log(tracks);
     });
 
 app.get('/api/genres', (request, respond) => {
@@ -205,6 +201,18 @@ app.get('/api/tracks/Title/:track_title', (request, respond) => {
 }
 );
 
+app.get('/api/albumsTitle/:album_title', (request, respond) => {
+    const title = request.params.album_title;
+    const album = tracks.find(p => p.album_title === title);
+    if (album) {
+        respond.send(album);
+    }
+    else {
+        respond.status(404).send(`Album title ${title} was not found!`);
+    }
+}
+);
+
 // 5th question
 app.get('/api/artists/Name/:artist_name', (request, respond) => {
     const name = request.params.artist_name;
@@ -212,6 +220,18 @@ app.get('/api/artists/Name/:artist_name', (request, respond) => {
     if (artist) {
         const artistNames = artists.filter(i => i.artist_name == name).map(i => i.artist_id)
         respond.send(artistNames);
+    }
+    else {
+        respond.status(404).send(`Artist name ${name} was not found!`);
+    }
+}
+);
+
+app.get('/api/artistsName/:artist_name', (request, respond) => {
+    const name = request.params.artist_name;
+    const artist = artists.find(p => p.artist_name === name);
+    if (artist) {
+        respond.send(artist);
     }
     else {
         respond.status(404).send(`Artist name ${name} was not found!`);
