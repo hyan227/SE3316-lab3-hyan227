@@ -35,6 +35,7 @@ var genres = [];
 var albums = [];
 var artists = [];
 var tracks = [];
+var list = [];
 var tracksList= {};
 
 const fs = require('fs');
@@ -149,6 +150,30 @@ app.get('/api/tracks/ID/:track_id', (request, respond) => {
     }
 }
 );
+// improved 3rd question for Front-end
+app.get('/api/tracksTitle/title/:track_title', (request, respond) => {
+    const title = request.params.track_title;
+    const track = tracks.find(p => p.track_title === title);
+    if (track) {
+        const dupTrack = {};
+        dupTrack.album_id = track.album_id;
+        dupTrack.album_title = track.album_title;
+        dupTrack.artist_id = track.artist_id;
+        dupTrack.artist_name = track.artist_name;
+        dupTrack.tags = track.tags;
+        dupTrack.track_date_created = track.track_date_created;
+        dupTrack.track_date_recorded = track.track_date_recorded;
+        dupTrack.track_duration = track.track_duration;
+        dupTrack.track_genres = track.track_genres;
+        dupTrack.track_number = track.track_number;
+        dupTrack.track_title = track.track_title;
+        respond.send(dupTrack);
+    }
+    else {
+        respond.status(404).send(`Track ${title} was not found!`);
+    }
+}
+);
 
 // 4th question 1
 app.get('/api/albums/Title/:album_title', (request, respond) => {
@@ -209,7 +234,7 @@ app.post('/api/tracksList/Name/:tracksList_name', (request, respond) => {
 }
 );
 // 7th question
-app.put('/api/trackIDList/Title/:tracksList_name', (request, respond) => {
+app.put('/api/trackIDList/Name/:tracksList_name', (request, respond) => {
     const newTrack = request.body;
     const name = request.params.tracksList_name;
     const track = tracks.find(p => parseInt(p.track_id) === newTrack.track_id);
@@ -227,8 +252,46 @@ app.put('/api/trackIDList/Title/:tracksList_name', (request, respond) => {
     }
 }
 );
+// 8th question 
+app.get('/api/tracksList/ID/:tracksList_name', (request, respond) => {
+    const name = request.params.tracksList_name;
+    if (tracksList[name] == true) {
+        const trackIDs = tracks.filter(i => i.track_title == title).map(i => i.track_id)
+        const trackFilter = trackIDs.slice(0, 6);
+        respond.send(trackFilter);
+    }
+    else {
+        respond.status(404).send(`Track title ${title} was not found!`);
+    }
+}
+);
 
+// Another 6th 
+app.post('/api/list', (request, respond) => {
+    let count = 0;
+    const name = request.body.listname;
+    for(var i =0; i < list.length; i++){
+        if(list[i].listname == name){
+            count= count+1;
+        }
+    }
+    if(count == 0){
+          list.push(request.body)
+          respond.send(list);
+    }
+    else
+    respond.status(404).send(`list name ${name} has already existed!`)
+    
 
+    MongoClient.connect(url, function(err,db) {
+          if(err) throw err;
+          var dbo = db.db("list-db");
+          var myobj = list;
+        
+          dbo.collection("test-2").insertMany(myobj);
+        });
+}
+);
 
 
 
